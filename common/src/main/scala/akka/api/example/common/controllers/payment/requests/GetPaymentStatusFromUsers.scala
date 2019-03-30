@@ -5,4 +5,4 @@ import akka.api.example.common.controllers.common.requests.ApiRequest
 /**
   * Created by bruno on 29/03/2019.
   */
-case class GetPaymentStatusFromUsers(users:(String,String)) extends ApiRequest
+case class GetPaymentStatusFromUsers(user1:String, user2: String) extends ApiRequest

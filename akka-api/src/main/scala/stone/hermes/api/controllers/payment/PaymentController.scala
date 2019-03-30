@@ -16,7 +16,8 @@ import akka.stream.scaladsl.{Flow, Sink, Source}
 import stone.hermes.api.controllers.payment.messages.ProcessPayment
 import stone.hermes.api.controllers.payment.util.PaymentInputGenerator
 
-import scala.collection.parallel.immutable.{ParMap, ParSeq}
+import scala.collection.parallel.immutable.ParMap
+import scala.collection.parallel.mutable.ParArray
 import scala.concurrent.Future
 import scala.concurrent.duration._
 
@@ -43,27 +44,26 @@ class PaymentController
 
   import context.dispatcher
 
-  private implicit val mat = ActorMaterializer()(context)
+  private implicit val mat: ActorMaterializer = ActorMaterializer()(context)
 
   def entityProps(id: Int): Props = Payment.props(id)
 
-  def processInput(input: PaymentContract.Input): (ParMap[Int, ParSeq[PaymentFO]], Long) = {
+  def processInput(input: PaymentContract.Input): (ParMap[Int, ParArray[PaymentFO]], Long) = {
+    val initialTimestamp = LocalDateTime.now.getEpochMillis
     input
-      .foldLeft(ParSeq[((String, Int), (String, Int))]())((v, e) =>
-        v match {
-          case x if x.isEmpty || x.head._2._2 != 0 => (e -> ("", 0)) +: x
-          case x => x.head.copy(_2 = e) +: x.tail
-        }
-      )
+      .toStream
+      .sliding(2, 2)
+      .toParArray
+      .map(x => x.head -> x.last)
       .map(x => PaymentFO.fromInput(Seq(x._1, x._2)))
-      .groupBy(x => Set(x.payer, x.receiver).hashCode()) -> LocalDateTime.now.getEpochMillis
+      .groupBy(x => Set(x.payer, x.receiver).hashCode()) -> initialTimestamp
   }
 
-  def processPayments(paymentsMapWithTimestamp: (ParMap[Int, ParSeq[PaymentFO]], Long)): (Future[ServiceResult[Seq[PaymentFO]]], Long) = {
+  def processPayments(paymentsMapWithTimestamp: (ParMap[Int, ParArray[PaymentFO]], Long)): (Future[ServiceResult[Seq[PaymentFO]]], Long) = {
     Future.successful(for {
       id <- paymentsMapWithTimestamp._1.keys
       actor = lookupOrCreateChild(id)
-      _ = actor ! paymentsMapWithTimestamp._1(id).head
+      _ = actor ! paymentsMapWithTimestamp._1(id).head.copy(amount = 0)
     } yield paymentsMapWithTimestamp._1(id).foreach(p => actor ! ProcessPayment(p)))
       .map { _ => multiEntityLookup(Future(paymentsMapWithTimestamp._1.keys.toVector)) }
       .flatMap(identity) -> paymentsMapWithTimestamp._2
@@ -101,7 +101,7 @@ class PaymentController
 
     case msg: ProcessManualPayments =>
       Source
-        .single(msg.payments)
+        .single(msg.payments.map(_.asInput))
         .via(Flow.fromFunction(processInput))
         .via(Flow.fromFunction(processPayments))
         .via(Flow.fromFunction(paymentOutputResponse))
@@ -109,12 +109,17 @@ class PaymentController
         .flatMap(identity)
         .pipeTo(sender)
 
-    case _: ClearCache =>
-      context.children.foreach(context.stop)
-      sender ! FullResult(s"Payment cache cleared.")
+    case msg: ClearCache =>
+      Future
+        .successful(context.children.foreach(_ ! msg))
+        .map(_ => FullResult(s"Payment cache cleared."))
+        .pipeTo(sender)
 
     case msg: GetPaymentStatusFromUsers =>
-      lookupOrCreateChild(Set(msg.users._1, msg.users._2).hashCode()) forward msg
+      val id = Set(msg.user1, msg.user2).hashCode()
+      val ref = lookupOrCreateChild(id)
+      ref ! PaymentFO(id, msg.user1, msg.user2, 0)
+      ref forward msg
 
     case msg =>
       logger.error(s"Received unexpected message $msg from $sender")

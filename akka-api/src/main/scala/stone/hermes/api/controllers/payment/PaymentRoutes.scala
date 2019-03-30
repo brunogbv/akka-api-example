@@ -22,11 +22,13 @@ class PaymentRoutes(paymentController: ActorRef)
                     mat: ActorMaterializer)
   extends RoutesDefinition("payments", paymentController) {
 
+  import scala.concurrent.duration._
+
   def manualPaymentsRoute: Route =
     routeFromBody[ProcessManualPayments, PaymentOutputResponse](post & path("manual"))
 
   def generatedPaymentsRoute: Route =
-    routeFromBody[GeneratePayments, PaymentOutputResponse](post & path("generate"))
+    routeFromBody[GeneratePayments, PaymentOutputResponse](post & path("generate"), 40.seconds)
 
   def clearCacheRoute: Route =
     routeFromBody[ClearCache, String](post & path("clear-cache"))

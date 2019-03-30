@@ -1,10 +1,11 @@
 package stone.hermes.api.controllers.payment
 
 import akka.actor.Props
-import akka.api.example.common.controllers.payment.requests.GetPaymentStatusFromUsers
+import akka.api.example.common.controllers.payment.requests.{ClearCache, GetPaymentStatusFromUsers}
 import akka.api.example.common.model.EntityActor
 import akka.api.example.common.model.EntityActor.InitializedData
 import akka.api.example.common.model.entities.PaymentFO
+import akka.api.example.common.model.service.results.FullResult
 import stone.hermes.api.controllers.payment.messages.ProcessPayment
 
 import scala.util.Try
@@ -32,7 +33,6 @@ class Payment(id: Int) extends EntityActor[PaymentFO](id) {
 
   def initializedHandling: StateFunction = {
     case Event(msg: ProcessPayment, data: InitializedData[PaymentFO]) =>
-      log.info(s"Processing message $msg")
         Try(processPayment(data.fo, msg)) match {
           case scala.util.Success(newAmount) =>
             stay using data.copy(fo = data.fo.copy(amount = newAmount))
@@ -41,11 +41,13 @@ class Payment(id: Int) extends EntityActor[PaymentFO](id) {
             stay
         }
 
-    case Event(msg: GetPaymentStatusFromUsers, data: InitializedData[PaymentFO]) =>
-      log.info(s"Processing message $msg")
-      sender ! data.fo.asOutput
+    case Event(_: GetPaymentStatusFromUsers, data: InitializedData[PaymentFO]) =>
+      sender ! FullResult(data.fo.asOutput)
       stay
 
-    case _ => stay()
+    case Event(_: ClearCache, data: InitializedData[PaymentFO]) =>
+      stay using data.copy(fo = data.fo.copy(amount = 0))
+
+    case _ => stay
   }
 }
