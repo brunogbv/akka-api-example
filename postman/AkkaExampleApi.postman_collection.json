@@ -1,0 +1,146 @@
+{
+	"info": {
+		"_postman_id": "f114e329-b780-40f4-a884-737d2ff38511",
+		"name": "AkkaExampleApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GeneratePayments",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"numberOfUsers\": 3,\n\t\"numberOfPayments\": 30000,\n\t\"maximumAmount\": 10\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:13000/api/v1/payments/generate",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "13000",
+					"path": [
+						"api",
+						"v1",
+						"payments",
+						"generate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ManualPayments",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"payments\": [\n        {\n            \"_1\": \"u1\",\n            \"_2\": -10\n        },\n        {\n            \"_1\": \"u2\",\n            \"_2\": 10\n        },\n        {\n            \"_1\": \"u2\",\n            \"_2\": -3\n        },\n        {\n            \"_1\": \"u3\",\n            \"_2\": -3\n        },\n        {\n            \"_1\": \"u2\",\n            \"_2\": -1\n        },\n        {\n            \"_1\": \"u1\",\n            \"_2\": 1\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:13000/api/v1/payments/manual",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "13000",
+					"path": [
+						"api",
+						"v1",
+						"payments",
+						"manual"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ClearPaymentCache",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://127.0.0.1:13000/api/v1/payments/clear-cache/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "13000",
+					"path": [
+						"api",
+						"v1",
+						"payments",
+						"clear-cache",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetPaymentStatusFromUsers",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"users\": {\n\t\t\"user1\": \"u1\",\n\t\t\"user2\": \"u2\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:13000/api/v1/payments",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "13000",
+					"path": [
+						"api",
+						"v1",
+						"payments"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
