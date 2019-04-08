@@ -1,4 +1,4 @@
-package stone.hermes.api.actors
+package example.api.actors
 
 import akka.actor.ActorSystem
 import akka.api.example.common.controllers.common.routes.RoutesDefinition
@@ -9,7 +9,7 @@ import akka.stream.Materializer
 import akka.stream.scaladsl.Sink
 import ch.megard.akka.http.cors.scaladsl.CorsDirectives.cors
 import com.typesafe.scalalogging.LazyLogging
-import stone.hermes.api.actors.ApiManager.ApiRoutes
+import ApiManager.ApiRoutes
 
 /**
   * Created by bvalerio on 04/07/2018.

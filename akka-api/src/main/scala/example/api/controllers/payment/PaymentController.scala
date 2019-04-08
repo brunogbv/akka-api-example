@@ -1,4 +1,4 @@
-package stone.hermes.api.controllers.payment
+package example.api.controllers.payment
 
 import java.time.LocalDateTime
 
@@ -13,8 +13,8 @@ import akka.api.example.common.model.service.results.{EmptyResult, FullResult}
 import akka.pattern.pipe
 import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.{Flow, Sink, Source}
-import stone.hermes.api.controllers.payment.messages.ProcessPayment
-import stone.hermes.api.controllers.payment.util.PaymentInputGenerator
+import example.api.controllers.payment.messages.ProcessPayment
+import example.api.controllers.payment.util.PaymentInputGenerator
 
 import scala.collection.parallel.immutable.ParMap
 import scala.collection.parallel.mutable.ParArray

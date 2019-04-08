@@ -1,4 +1,4 @@
-package stone.hermes.api.controllers.payment
+package example.api.controllers.payment
 
 import akka.actor.{ActorRef, ActorSystem}
 import akka.api.example.common.controllers.common.routes.RoutesDefinition

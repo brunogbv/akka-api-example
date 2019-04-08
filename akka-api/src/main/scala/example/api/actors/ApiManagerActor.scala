@@ -1,9 +1,9 @@
-package stone.hermes.api.actors
+package example.api.actors
 
 import akka.actor.{Actor, ActorRef, PoisonPill, Props}
 import akka.pattern.{Backoff, BackoffSupervisor}
 import akka.stream.ActorMaterializer
-import stone.hermes.api.controllers.payment.{PaymentController, PaymentRoutes}
+import example.api.controllers.payment.{PaymentController, PaymentRoutes}
 
 /**
   * Created by bvalerio on 04/07/2018.
@@ -29,7 +29,7 @@ class ApiManagerActor
   import ApiManager.ApiRoutes
   import context.{dispatcher, system}
 
-  private implicit val mat = ActorMaterializer()(context)
+  private implicit val mat: ActorMaterializer = ActorMaterializer()(context)
   private val paymentController: ActorRef = PaymentController.initiate
 
   override def preStart(): Unit =

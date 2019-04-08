@@ -1,4 +1,4 @@
-package stone.hermes.api.controllers.payment.messages
+package example.api.controllers.payment.messages
 
 import akka.api.example.common.model.entities.PaymentFO
 

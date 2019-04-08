@@ -1,8 +1,8 @@
-package stone.hermes.api
+package example.api
 
 import akka.actor.ActorSystem
 import com.typesafe.config.ConfigFactory
-import stone.hermes.api.actors.ApiManagerActor
+import example.api.actors.ApiManagerActor
 
 /**
   * Created by bvalerio on 03/07/2018.

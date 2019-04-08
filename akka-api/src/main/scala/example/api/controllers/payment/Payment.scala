@@ -1,4 +1,4 @@
-package stone.hermes.api.controllers.payment
+package example.api.controllers.payment
 
 import akka.actor.Props
 import akka.api.example.common.controllers.payment.requests.{ClearCache, GetPaymentStatusFromUsers}
@@ -6,7 +6,7 @@ import akka.api.example.common.model.EntityActor
 import akka.api.example.common.model.EntityActor.InitializedData
 import akka.api.example.common.model.entities.PaymentFO
 import akka.api.example.common.model.service.results.FullResult
-import stone.hermes.api.controllers.payment.messages.ProcessPayment
+import example.api.controllers.payment.messages.ProcessPayment
 
 import scala.util.Try
 

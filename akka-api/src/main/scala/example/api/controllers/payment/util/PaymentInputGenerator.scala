@@ -1,4 +1,4 @@
-package stone.hermes.api.controllers.payment.util
+package example.api.controllers.payment.util
 
 import java.time.LocalDateTime
 
