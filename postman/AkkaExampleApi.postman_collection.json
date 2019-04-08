@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f114e329-b780-40f4-a884-737d2ff38511",
+		"_postman_id": "f56ee9eb-b1c0-44c5-9436-1223164c8e48",
 		"name": "AkkaExampleApi",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -19,7 +19,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"numberOfUsers\": 3,\n\t\"numberOfPayments\": 30000,\n\t\"maximumAmount\": 10\n}"
+					"raw": "{\n\t\"numberOfUsers\": 3,\n\t\"numberOfPayments\": 30000,\n\t\"maximumAmount\": 100\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:13000/api/v1/payments/generate",
@@ -55,7 +55,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"payments\": [\n        {\n            \"_1\": \"u1\",\n            \"_2\": -10\n        },\n        {\n            \"_1\": \"u2\",\n            \"_2\": 10\n        },\n        {\n            \"_1\": \"u2\",\n            \"_2\": -3\n        },\n        {\n            \"_1\": \"u3\",\n            \"_2\": -3\n        },\n        {\n            \"_1\": \"u2\",\n            \"_2\": -1\n        },\n        {\n            \"_1\": \"u1\",\n            \"_2\": 1\n        }\n    ]\n}"
+					"raw": "{\n    \"payments\": [\n        {\n            \"user\": \"u1\",\n            \"amount\": -10\n        },\n        {\n            \"user\": \"u2\",\n            \"amount\": 10\n        },\n        {\n            \"user\": \"u2\",\n            \"amount\": -3\n        },\n        {\n            \"user\": \"u3\",\n            \"amount\": -3\n        },\n        {\n            \"user\": \"u2\",\n            \"amount\": -1\n        },\n        {\n            \"user\": \"u1\",\n            \"amount\": 1\n        }\n    ]\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:13000/api/v1/payments/manual",
@@ -121,7 +121,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"users\": {\n\t\t\"user1\": \"u1\",\n\t\t\"user2\": \"u2\"\n\t}\n}"
+					"raw": "{\n\t\t\"user1\": \"u1\",\n\t\t\"user2\": \"u2\"\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:13000/api/v1/payments",
