@@ -1,13 +1,13 @@
 import sbt._
 
 object Dependencies {
-  private val akkaVersion                 = "2.5.13"
-  private val akkaHttpVersion             = "10.1.1" //10.0.7
-  private val scalaLoggingVersion         = "3.1.0"
-  private val logbackVersion              = "1.1.7"
-  private val json4sVersion               = "3.5.2"
-  private val akkaJson4sVersion           = "1.18.1"
-  private val akkaHttpCors                = "0.3.0"
+  private val akkaVersion                 = "2.5.21"
+  private val akkaHttpVersion             = "10.1.8" //10.0.7
+  private val scalaLoggingVersion         = "3.9.0"
+  private val logbackVersion              = "1.2.3"
+  private val json4sVersion               = "3.6.5"
+  private val akkaJson4sVersion           = "1.25.2"
+  private val akkaHttpCors                = "0.4.0"
 
   val akkaDependencies: Seq[ModuleID] = Seq(
     "com.typesafe.akka"           %% "akka-actor"                 % akkaVersion,
@@ -28,6 +28,6 @@ object Dependencies {
   val loggingDependencies: Seq[ModuleID] = Seq(
     "com.typesafe.scala-logging"  %% "scala-logging"              % scalaLoggingVersion,
     "ch.qos.logback"              %  "logback-classic"            % logbackVersion,
-    "com.typesafe.akka"           %  "akka-slf4j_2.11"            % akkaVersion
+    "com.typesafe.akka"           %% "akka-slf4j"                 % akkaVersion
   )
 }
